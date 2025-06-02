@@ -1,28 +1,31 @@
-@tool
-@icon("icon.png")
-class_name QRCodeTextureRect extends TextureRect
+tool
+extends TextureRect
+class_name QRCodeTextureRect, "res://addons/QRCodeTexture/resources/icons/icon.png"
 
-@export var data: String = "":
-	set(new_value):
-		data = new_value
-		_ui_update_texture()
+export(String) var data: String = "" setget set_data
 
-@export var error_correct_level: QRCode.ERROR_CORRECT_LEVEL = QRCode.ERROR_CORRECT_LEVEL.LOW:
-	set(new_value):
-		error_correct_level = new_value
-		_update_error_correct_level()
-		_ui_update_texture()
+export(int, "LOW,MEDIUM,QUARTILE,HIGH") var error_correct_level = QRCode.ERROR_CORRECT_LEVEL.LOW setget set_error_correct_level
 
-@onready var _qr_code: QRCode = QRCode.new()
+var _qr_code: QRCode = null
 
 # ------------------------------------------------------------------------------
 # Build-in methods
 # ------------------------------------------------------------------------------
 
+func set_data(new_value):
+	data = new_value
+	_ui_update_texture()
+
+func set_error_correct_level(new_value):
+	error_correct_level = new_value
+	_update_error_correct_level()
+	_ui_update_texture()
+
+
 func _ready() -> void:
-	self.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
+	_qr_code = QRCode.new()
+
 	self.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
-	self.texture_filter = CanvasItem.TEXTURE_FILTER_NEAREST
 	
 	_ui_update()
 

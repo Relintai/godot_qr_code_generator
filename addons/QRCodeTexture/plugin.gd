@@ -1,4 +1,5 @@
-@tool extends EditorPlugin
+tool
+extends EditorPlugin
 
 # ------------------------------------------------------------------------------
 # Build-in methods

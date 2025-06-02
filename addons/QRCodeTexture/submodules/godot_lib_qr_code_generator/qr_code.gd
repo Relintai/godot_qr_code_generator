@@ -214,7 +214,7 @@ func generate(input: String, mask_pattern: int) -> Array:
 # ------------------------------------------------------------------------------
 
 func _set_encoding_type(value: String) -> void:
-	var byte_array = value.to_utf8_buffer()
+	var byte_array = value.to_utf8()
 	
 	var is_numeric = true
 	for byte in byte_array:
@@ -282,7 +282,7 @@ func _encode_alphanumeric(value: String) -> void:
 
 func _encode_bytes(value: String) -> void:
 	qr_data_list = []
-	var byte_array = value.to_utf8_buffer()
+	var byte_array = value.to_utf8()
 	for byte in byte_array:
 		qr_data_list.append_array(QRCodeUtils.convert_to_binary(byte))
 
@@ -333,7 +333,13 @@ func _set_info_segments() -> void:
 	
 	while float(qr_data_list.size()) / 8.0 < max_capacity:
 		qr_data_list.append_array(padding_bits[0])
-		padding_bits.reverse()
+		#padding_bits.reverse()
+		
+		for i in range(padding_bits.size() / 2):
+			var t = padding_bits[i]
+			padding_bits[i] = padding_bits[padding_bits.size() - i - 1]
+			padding_bits[padding_bits.size() - i - 1] = t
+		
 
 func _split_data_into_blocks() -> void:
 	var num_blocks: int = NUM_ERROR_CORRECTION_BLOCKS[error_correct_level][type_number - 1]
@@ -572,19 +578,26 @@ func get_lost_point() -> int:
 	return lost_point
 
 func _generate_texture_image(data: Array) -> ImageTexture:
-	var image: Image = Image.create(data.size() + 2, data.size() + 2, false, Image.FORMAT_RGB8)
-	image.fill(Color.WHITE)
+	var image : Image = Image.new()
+	image.create(data.size() + 2, data.size() + 2, false, Image.FORMAT_RGB8)
+	image.fill(Color.white)
+	
+	image.lock()
 	
 	for row in range(data.size()):
 		for col in range(data[row].size()):
-			var color = Color.BLACK if data[row][col] else Color.WHITE
+			var color = Color.black if data[row][col] else Color.white
 			
 			if data[row][col] == null:
-				color = Color.GRAY
+				color = Color.gray
 			
 			image.set_pixel(row + 1, col + 1, color)
 	
-	return ImageTexture.create_from_image(image)
+	image.unlock()
+	
+	var it : ImageTexture = ImageTexture.new()
+	it.create_from_image(image, 0)
+	return it
 
 
 func _get_data_zigzag_positions() -> Array:
