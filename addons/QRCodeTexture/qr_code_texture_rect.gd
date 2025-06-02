@@ -1,6 +1,6 @@
 tool
 extends TextureRect
-class_name QRCodeTextureRect, "res://addons/QRCodeTexture/resources/icons/icon.png"
+class_name QRCodeTextureRect, "res://addons/QRCodeTexture/icon.png"
 
 export(String) var data: String = "" setget set_data
 

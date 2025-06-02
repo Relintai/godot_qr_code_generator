@@ -12,7 +12,7 @@ _global_script_classes=[ {
 "base": "Node",
 "class": @"QRCode",
 "language": @"GDScript",
-"path": "res://addons/QRCodeTexture/submodules/godot_lib_qr_code_generator/qr_code.gd"
+"path": "res://addons/QRCodeTexture/qr_code_generator/qr_code.gd"
 }, {
 "base": "TextureRect",
 "class": @"QRCodeTextureRect",
@@ -22,18 +22,18 @@ _global_script_classes=[ {
 "base": "Object",
 "class": @"QRCodeUtils",
 "language": @"GDScript",
-"path": "res://addons/QRCodeTexture/submodules/godot_lib_qr_code_generator/qr_code_utils.gd"
+"path": "res://addons/QRCodeTexture/qr_code_generator/qr_code_utils.gd"
 }, {
 "base": "Object",
 "class": @"ReedSolomonGenerator",
 "language": @"GDScript",
-"path": "res://addons/QRCodeTexture/submodules/godot_lib_qr_code_generator/reed_solomon_generator.gd"
+"path": "res://addons/QRCodeTexture/qr_code_generator/reed_solomon_generator.gd"
 } ]
 _global_script_class_icons={
 @"QRCode": "",
 @"QRCodeUtils": "",
 @"ReedSolomonGenerator": "",
-@"QRCodeTextureRect": "res://addons/QRCodeTexture/resources/icons/icon.png"
+@"QRCodeTextureRect": ""
 }
 
 [application]
@@ -41,6 +41,10 @@ _global_script_class_icons={
 config/name="godot_qr_code_generator"
 run/main_scene="res://Main.tscn"
 config/icon="res://icon.png"
+
+[editor_plugins]
+
+enabled=PoolStringArray( "res://addons/QRCodeTexture/plugin.cfg" )
 
 [gui]
 
